@@ -13,7 +13,7 @@ export default function MealItem(props) {
         <div className={classes.price}>{`$${meal.price.toFixed(2)}`}</div>
       </div>
       <div>
-        <MealItemForm />
+        <MealItemForm id={meal.id} />
       </div>
     </li>
   );
