@@ -6,6 +6,7 @@ import classes from "./Cart.module.css";
 export default function Cart(props) {
   const cartCtx = useContext(CartContext);
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
+  const hasItems = cartCtx.items.length > 0;
 
   const cartItems = (
     <ul className={classes["cart-items"]}>
@@ -26,7 +27,7 @@ export default function Cart(props) {
         <button className={classes["button--alt"]} onClick={props.onHideCart}>
           Close
         </button>
-        <button className={classes.button}>Order</button>
+        {hasItems && <button className={classes.button}>Order</button>}
       </div>
     </Modal>
   );
