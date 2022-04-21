@@ -7,7 +7,7 @@ export default function CartProvider(props) {
   function handleRemoveItemFromCart(id) {}
 
   const cartContext = {
-    item: [],
+    items: [],
     totalAmount: 0,
     addItem: handleAddItemToCart,
     removeItem: handleRemoveItemFromCart,
