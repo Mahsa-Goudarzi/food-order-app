@@ -83,7 +83,16 @@ export default function Cart(props) {
 
   const isSubmittingModalContent = <p>Sending order data</p>;
 
-  const submittedModalContent = <p>Successfully sent the order!</p>;
+  const submittedModalContent = (
+    <React.Fragment>
+      <p>Successfully sent the order!</p>
+      <div className={classes.actions}>
+        <button className={classes.button} onClick={props.onHideCart}>
+          Close
+        </button>
+      </div>
+    </React.Fragment>
+  );
 
   return (
     <Modal onHideCart={props.onHideCart}>
