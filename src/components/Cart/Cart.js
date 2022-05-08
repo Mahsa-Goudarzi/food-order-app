@@ -7,6 +7,8 @@ import Checkout from "./Checkout";
 
 export default function Cart(props) {
   const [isCheckout, setIsCheckout] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const cartCtx = useContext(CartContext);
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
   const hasItems = cartCtx.items.length > 0;
@@ -23,8 +25,9 @@ export default function Cart(props) {
     setIsCheckout(true);
   }
 
-  const submitOrderHandler = (userData) => {
-    fetch(
+  const submitOrderHandler = async (userData) => {
+    setIsSubmitting(true);
+    await fetch(
       "https://mahsa-react-movie-app-default-rtdb.firebaseio.com/orders.json",
       {
         method: "POST",
@@ -34,6 +37,8 @@ export default function Cart(props) {
         }),
       }
     );
+    setIsSubmitting(false);
+    setSubmitted(true);
   };
 
   const cartItems = (
@@ -62,8 +67,8 @@ export default function Cart(props) {
     </div>
   );
 
-  return (
-    <Modal onHideCart={props.onHideCart}>
+  const cartModalContent = (
+    <React.Fragment>
       {cartItems}
       <div className={classes.total}>
         <span>Total Amount</span>
@@ -73,6 +78,18 @@ export default function Cart(props) {
         <Checkout onConfirm={submitOrderHandler} onCancel={props.onHideCart} />
       )}
       {!isCheckout && modalActions}
+    </React.Fragment>
+  );
+
+  const isSubmittingModalContent = <p>Sending order data</p>;
+
+  const submittedModalContent = <p>Successfully sent the order!</p>;
+
+  return (
+    <Modal onHideCart={props.onHideCart}>
+      {!isSubmitting && !submitted && cartModalContent}
+      {isSubmitting && isSubmittingModalContent}
+      {!isSubmitting && submitted && submittedModalContent}
     </Modal>
   );
 }
