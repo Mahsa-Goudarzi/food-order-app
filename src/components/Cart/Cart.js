@@ -39,6 +39,7 @@ export default function Cart(props) {
     );
     setIsSubmitting(false);
     setSubmitted(true);
+    cartCtx.clearCart();
   };
 
   const cartItems = (
